@@ -1,4 +1,4 @@
-package com.mocktrade.mockcryptotrade;
+package com.mockcryptotrade;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
