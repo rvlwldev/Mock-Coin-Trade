@@ -1,0 +1,15 @@
+server:
+  address: 127.0.0.1
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/MockCoinDB?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: mockCryptoTradeMaster
+    password: 1234
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
