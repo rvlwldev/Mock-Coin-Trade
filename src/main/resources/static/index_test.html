@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>ㅋㅋㅋㅋ</title>
+</head>
+
+<body>
+    <h1>Main Page</h1>
+
+    <button onclick="initList()"> 초기화테스트! </button>
+
+</body>
+
+
+<script>
+    function initList() {
+
+        if (!confirm("모든 코인목록 초기화? ")) return;
+
+        $(document).ready(function () {
+            $.ajax({
+                type: 'POST',   
+                url: 'http://localhost:8080/admin/initCryptoList', 
+                dataType: 'text',
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {   //데이터 주고받기가 실패했을 경우 실행할 결과
+                    alert('실패');
+                }
+            })
+        });
+    }
+
+</script>
+
+</html>
