@@ -3,6 +3,7 @@ package com.mockcryptotrade.Common.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -12,9 +13,16 @@ import java.util.Arrays;
 
 @Configuration
 public class SecurityConfiguration {
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().and()
+        http.authorizeRequests().anyRequest().permitAll()
+                .and()
                 .formLogin()
                     .loginPage("/login").permitAll()
                 .and()
