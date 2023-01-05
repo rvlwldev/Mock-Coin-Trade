@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="import" href="../static/nav.html">
 
     <style>
         .btn-group-xs>.btn,
@@ -20,124 +21,11 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">내 정보<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">자유게시판</a>
-                </li>
-                <!-- dropdown 메뉴 삭제 -->
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <div>
-                <!-- 비로그인 상태일 때 -->
-                <button class="btn btn-outline-info my-2 my-sm-0" style="margin-right: 8px;" data-toggle="modal"
-                    data-target="#modal_register" style="display: inline;">회원가입</button>
-                <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#modal_login"
-                    style="display: inline;">로그인</button>
-
-                <!-- 로그인 상태일 때 -->
-                <button class="btn btn-outline-secondary my-2 my-sm-0" data-toggle="modal" data-target="#modal_login"
-                    style="display: none;">로그아웃</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- 회원가입 폼 -->
-    <div class="modal fade" id="modal_register" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">회원가입</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- 회원가입 폼 액션 구현필요 -->
-                    <form action="">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">아이디</label>
-                            <input type="text" class="form-control" id="userId">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">비밀번호</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
-                            <label for="message-text" class="col-form-label-sm" style="display: none;">
-                                <span>! 비밀번호는 8글자 이상으로 </span>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">비밀번호 확인</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
-                            <label for="message-text" class="col-form-label-sm">
-                                <span style="color: red;">! 비밀번호가 다름</span>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">이메일</label>
-                            <input type="text" class="form-control" id="userId">
-                            <label for="message-text" class="col-form-label-sm">
-                                <span style="color: red;">! 올바른 이메일을 입력해주세요!</span>
-                            </label>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-primary" type="submit">회원가입</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 로그인 폼-->
-    <div class="modal fade" id="modal_login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- 로그인폼에 로그인액션 넣어야함 -->
-                    <form action="">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">아이디</label>
-                            <input type="text" class="form-control" id="userId">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">비밀번호</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer row">
-                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> -->
-                    <button type="button" class="btn btn-info" type="submit">가입하기!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="container">
-        <h3>adfasdf</h3>
 
-        <div class="table-responsive">
+        <header data-include-path="../static/nav.html"></header>
+
+        <div class="table-responsive" style="margin-top: 40px;">
             <div class="container-fluid d-flex justify-content-end"
                 style="margin-bottom: 2px;margin-top: 20px; padding-right: 1px;">
                 <select class="form-select" aria-label="Default select example">
@@ -166,7 +54,7 @@
                         <td style="text-align: right; color: hotpink;">1.23%</td>
                         <td style="text-align: right;">1,241백 만</td>
                         <td align="center">
-                            <button class="btn btn-info btn-xs btn-block" style="margin: 0px;" data-toggle="modal"
+                            <button class="btn btn-info btn-sm btn-block" style="margin: 0px;" data-toggle="modal"
                                 data-target="#modal_buy">매입</button>
                         </td>
                     </tr>
@@ -176,7 +64,7 @@
                         <td style="text-align: right; color: cornflowerblue;">-9,901.14%</td>
                         <td style="text-align: right;">6백 만</td>
                         <td align="center">
-                            <button class="btn btn-info btn-xs btn-block" style="margin: 0px;" data-toggle="modal"
+                            <button class="btn btn-info btn-sm btn-block" style="margin: 0px;" data-toggle="modal"
                                 data-target="#modal_buy">매입</button>
                         </td>
                     </tr>
@@ -186,7 +74,7 @@
                         <td style="text-align: right; color: white;">0.0%</td>
                         <td style="text-align: right;">1,030백 만</td>
                         <td align="center">
-                            <button class="btn btn-info btn-xs btn-block" style="margin: 0px;" data-toggle="modal"
+                            <button class="btn btn-info btn-sm btn-block" style="margin: 0px;" data-toggle="modal"
                                 data-target="#modal_buy">매입</button>
                         </td>
                     </tr>
@@ -244,6 +132,26 @@
             crossorigin="anonymous"></script>
         <script src="../static/js/bootstrap.bundle.js"></script>
         <script src="../static/js/bootstrap.js"></script>
+
+
+        <script>
+            window.addEventListener('load', function () {
+                var allElements = document.getElementsByTagName('header');
+                Array.prototype.forEach.call(allElements, function (el) {
+                    var includePath = el.dataset.includePath;
+                    if (includePath) {
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                el.outerHTML = this.responseText;
+                            }
+                        };
+                        xhttp.open('GET', includePath, true);
+                        xhttp.send();
+                    }
+                });
+            });
+        </script>
 </body>
 
 </html>

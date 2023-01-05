@@ -1,6 +1,6 @@
 package com.mockcryptotrade.Common;
 
-import com.mockcryptotrade.Domain.Crypto.CryptoInfo;
+import com.mockcryptotrade.Domain.Crypto.CryptoInit;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,39 +19,39 @@ public class ApiService {
     @Autowired
     CommonService common;
 
-    public List<CryptoInfo> initializeCryptoNames() throws IOException {
+    public List<CryptoInit> initializeCryptoNames() throws IOException {
         HttpURLConnection connection = common.getAPIConnection(ALL_CRYPTO_INFO_API.toString());
         String apiInfo = common.toJSONStringByConnection(connection);
         return toCryptoInfoEntity(apiInfo);
     }
 
-    private List<CryptoInfo> toCryptoInfoEntity(String apiInfo) {
-        List<CryptoInfo> cryptoList = new ArrayList<>();
+    private List<CryptoInit> toCryptoInfoEntity(String apiInfo) {
+        List<CryptoInit> cryptoList = new ArrayList<>();
 
         JSONArray array = new JSONArray(apiInfo);
 
         for (Object cryptoInfo : array) {
             JSONObject info = (JSONObject) cryptoInfo;
 
-            CryptoInfo entity = getCryptoInfoByApiData(info);
+            CryptoInit entity = getCryptoInfoByApiData(info);
             cryptoList.add(entity);
         }
 
         return cryptoList;
     }
 
-    private CryptoInfo getCryptoInfoByApiData(JSONObject info) {
-        CryptoInfo cryptoInfo = new CryptoInfo();
+    private CryptoInit getCryptoInfoByApiData(JSONObject info) {
+        CryptoInit cryptoInit = new CryptoInit();
 
-        cryptoInfo.setCryptoId(getCryptoID(info));
-        cryptoInfo.setCryptoMarket(getCryptoMarket(info));
-        cryptoInfo.setFullNameKO(info.get("korean_name").toString());
-        cryptoInfo.setFullNameEN(info.get("english_name").toString());
+        cryptoInit.setCryptoId(getCryptoID(info));
+        cryptoInit.setCryptoMarket(getCryptoMarket(info));
+        cryptoInit.setFullNameKO(info.get("korean_name").toString());
+        cryptoInit.setFullNameEN(info.get("english_name").toString());
 
         // TODO : 추후 한화마켓이 아닌 다른 마켓도 지원할때 삭제 요망
-        cryptoInfo.setUseYn(cryptoInfo.getCryptoMarket().equals("KRW") ? 1 : 0);
+        cryptoInit.setUseYn(cryptoInit.getCryptoMarket().equals("KRW") ? 1 : 0);
 
-        return cryptoInfo;
+        return cryptoInit;
     }
 
     private String getCryptoID(JSONObject info) {
