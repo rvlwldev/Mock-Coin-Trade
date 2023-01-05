@@ -8,12 +8,14 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "CRYPTO")
-public class CryptoInit {
+@IdClass(CryptoID.class)
+public class Crypto {
 
     @Id
     @Column(name = "CRYPTO_ID")
     private String CryptoId;
 
+    @Id
     @Column(name = "CRYPTO_MARKET")
     private String CryptoMarket;
 

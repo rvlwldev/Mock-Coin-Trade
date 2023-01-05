@@ -1,6 +1,6 @@
 package com.mockcryptotrade.Common;
 
-import com.mockcryptotrade.Domain.Crypto.CryptoInit;
+import com.mockcryptotrade.Domain.Crypto.Crypto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,29 +19,29 @@ public class ApiService {
     @Autowired
     CommonService common;
 
-    public List<CryptoInit> initializeCryptoNames() throws IOException {
+    public List<Crypto> initializeCryptoNames() throws IOException {
         HttpURLConnection connection = common.getAPIConnection(ALL_CRYPTO_INFO_API.toString());
         String apiInfo = common.toJSONStringByConnection(connection);
         return toCryptoInfoEntity(apiInfo);
     }
 
-    private List<CryptoInit> toCryptoInfoEntity(String apiInfo) {
-        List<CryptoInit> cryptoList = new ArrayList<>();
+    private List<Crypto> toCryptoInfoEntity(String apiInfo) {
+        List<Crypto> cryptoList = new ArrayList<>();
 
         JSONArray array = new JSONArray(apiInfo);
 
         for (Object cryptoInfo : array) {
             JSONObject info = (JSONObject) cryptoInfo;
 
-            CryptoInit entity = getCryptoInfoByApiData(info);
+            Crypto entity = getCryptoInfoByApiData(info);
             cryptoList.add(entity);
         }
 
         return cryptoList;
     }
 
-    private CryptoInit getCryptoInfoByApiData(JSONObject info) {
-        CryptoInit cryptoInit = new CryptoInit();
+    private Crypto getCryptoInfoByApiData(JSONObject info) {
+        Crypto cryptoInit = new Crypto();
 
         cryptoInit.setCryptoId(getCryptoID(info));
         cryptoInit.setCryptoMarket(getCryptoMarket(info));
