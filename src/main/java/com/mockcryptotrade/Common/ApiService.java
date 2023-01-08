@@ -1,68 +1,50 @@
 package com.mockcryptotrade.Common;
 
+import com.mockcryptotrade.Domain.Crypto.API_Response.CryptoInit;
+import com.mockcryptotrade.Domain.Crypto.API_Response.CryptoTicker;
 import com.mockcryptotrade.Domain.Crypto.Crypto;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mockcryptotrade.Domain.Crypto.CryptoDetail;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mockcryptotrade.Common.Enum.API_URL.ALL_CRYPTO_INFO_API;
+import static com.mockcryptotrade.Common.Enum.API_URL.CRYPTO_DETAIL_INFO_API;
 
 @Service
 public class ApiService {
 
-    @Autowired
-    CommonService common;
+    public List<CryptoInit> getCryptoInitList() {
+        WebClient webclient = WebClient.create(ALL_CRYPTO_INFO_API.toString());
 
-    public List<Crypto> initializeCryptoNames() throws IOException {
-        HttpURLConnection connection = common.getAPIConnection(ALL_CRYPTO_INFO_API.toString());
-        String apiInfo = common.toJSONStringByConnection(connection);
-        return toCryptoInfoEntity(apiInfo);
+        List<CryptoInit> result = webclient.get()
+                .retrieve()
+                .bodyToFlux(CryptoInit.class)
+                .collectList()
+                .block();
+
+        return result;
     }
 
-    private List<Crypto> toCryptoInfoEntity(String apiInfo) {
-        List<Crypto> cryptoList = new ArrayList<>();
+    public List<CryptoDetail> getCryptoDetailList(List<Crypto> cryptos, String param) {
+        List<CryptoDetail> detailList = new ArrayList<>();
 
-        JSONArray array = new JSONArray(apiInfo);
+        WebClient webclient = WebClient.create(CRYPTO_DETAIL_INFO_API + param);
 
-        for (Object cryptoInfo : array) {
-            JSONObject info = (JSONObject) cryptoInfo;
+        List<CryptoTicker> result = webclient.get()
+                .retrieve()
+                .bodyToFlux(CryptoTicker.class)
+                .collectList()
+                .block();
 
-            Crypto entity = getCryptoInfoByApiData(info);
-            cryptoList.add(entity);
+        for (CryptoTicker ticker : result) detailList.add(new CryptoDetail(ticker));
+
+        for (int i = 0; i < result.size(); i++) {
+            detailList.get(i).setFullNameKO(cryptos.get(i).getFullNameKO());
         }
 
-        return cryptoList;
-    }
-
-    private Crypto getCryptoInfoByApiData(JSONObject info) {
-        Crypto cryptoInit = new Crypto();
-
-        cryptoInit.setCryptoId(getCryptoID(info));
-        cryptoInit.setCryptoMarket(getCryptoMarket(info));
-        cryptoInit.setFullNameKO(info.get("korean_name").toString());
-        cryptoInit.setFullNameEN(info.get("english_name").toString());
-
-        // TODO : 추후 한화마켓이 아닌 다른 마켓도 지원할때 삭제 요망
-        cryptoInit.setUseYn(cryptoInit.getCryptoMarket().equals("KRW") ? 1 : 0);
-
-        return cryptoInit;
-    }
-
-    private String getCryptoID(JSONObject info) {
-        return info.get("market")
-                .toString()
-                .split("-")[1];
-    }
-
-    private String getCryptoMarket(JSONObject info) {
-        return info.get("market")
-                .toString()
-                .split("-")[0];
+        return detailList;
     }
 }

@@ -1,17 +1,16 @@
 package com.mockcryptotrade.Controller;
 
 import com.mockcryptotrade.Common.ApiService;
+import com.mockcryptotrade.Domain.Crypto.API_Response.CryptoInit;
 import com.mockcryptotrade.Domain.Crypto.Crypto;
-import com.mockcryptotrade.Repository.Interface.CryptoInitRepo;
+import com.mockcryptotrade.Repository.CryptoInitRepo;
+import com.mockcryptotrade.Service.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -21,13 +20,18 @@ public class AdminController {
     ApiService apiService;
 
     @Autowired
+    CryptoService cryptoService;
+
+    @Autowired
     CryptoInitRepo cryptoInfoRepo;
 
     @PostMapping("/initCryptoList")
-    public String initCrypto(@RequestParam Map<String, Object> param) throws IOException {
+    public String initCrypto() {
         try {
-            List<Crypto> cryptoInitList = apiService.initializeCryptoNames();
-            cryptoInfoRepo.saveAll(cryptoInitList);
+            List<CryptoInit> cryptoInitList = apiService.getCryptoInitList();
+            List<Crypto> cryptoList = cryptoService.convertInitCryptoToEntity(cryptoInitList);
+
+            cryptoInfoRepo.saveAll(cryptoList);
         } catch (Exception e) {
             return "실패 ㅠㅠ";
         }

@@ -1,53 +1,46 @@
 package com.mockcryptotrade.Service;
 
-import com.mockcryptotrade.Common.CommonService;
-import com.mockcryptotrade.Domain.Crypto.CryptoDetail;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mockcryptotrade.Domain.Crypto.Crypto;
+import com.mockcryptotrade.Domain.Crypto.API_Response.CryptoInit;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-
-import static com.mockcryptotrade.Common.Enum.API_URL.CRYPTO_DETAIL_INFO_API;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
 public class CryptoService {
 
-    @Autowired
-    CommonService common;
+    public List<Crypto> convertInitCryptoToEntity(List<CryptoInit> initList) {
+        List<Crypto> list = new ArrayList<>();
 
-    public CryptoDetail getDetails(String id, String market, String fullNameKO) throws IOException {
-        CryptoDetail detail = new CryptoDetail();
+        for (CryptoInit init : initList) {
+            Crypto crypto = new Crypto();
 
-        HttpURLConnection connection = common.getAPIConnection(CRYPTO_DETAIL_INFO_API.toString() + market + "-" + id);
-        String info = common.toJSONStringByConnection(connection);
+            crypto.setCryptoId(init.getMarket());
+            crypto.setCryptoMarket(init.getMarket());
+            crypto.setFullNameKO(init.getKorean_name());
+            crypto.setFullNameEN(init.getEnglish_name());
 
-        try {
-            JSONObject details = (JSONObject) new JSONArray(info).get(0);
+            // TODO: 현재는 한화만을 기준으로... 확장 시 수정요망
+            crypto.setUseYn(crypto.getCryptoMarket().equals("KRW") ? 1 : 0);
 
-            double trade_price = Double.parseDouble(details.get("trade_price").toString());
-            double signed_change_rate = Double.parseDouble(details.get("signed_change_rate").toString());
-            double acc_trade_price_24h = Double.parseDouble(details.get("acc_trade_price_24h").toString());
-
-            trade_price = Math.round(trade_price * 100) / 100.0;
-            signed_change_rate = Math.round(signed_change_rate * 10000) / 100.0;
-            acc_trade_price_24h = Math.round(acc_trade_price_24h / 100000);
-
-            detail.setCryptoId(id);
-            detail.setCryptoMarket(market);
-            detail.setFullNameKO(fullNameKO);
-            detail.setTradePrice(trade_price);
-            detail.setSignedChangeRate(signed_change_rate);
-            detail.setAccTradePrice24h((int) acc_trade_price_24h);
-
-            return detail;
-        } catch (Exception e) {
-            return null;
+            list.add(crypto);
         }
 
+        return list;
+    }
+
+    public String getParamValueForCryptoDetails(List<Crypto> cryptos) {
+        StringBuilder paramBuilder = new StringBuilder();
+        for (Crypto c : cryptos) {
+            paramBuilder.append(c.getCryptoMarket())
+                    .append("-")
+                    .append(c.getCryptoId())
+                    .append(",");
+        }
+
+        return paramBuilder.substring(0, paramBuilder.length() - 1);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.mockcryptotrade.Domain.Crypto;
+package com.mockcryptotrade.Domain.Crypto.PK;
 
 import lombok.Data;
 
