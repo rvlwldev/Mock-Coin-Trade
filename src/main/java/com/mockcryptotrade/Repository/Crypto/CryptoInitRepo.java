@@ -1,4 +1,4 @@
-package com.mockcryptotrade.Repository;
+package com.mockcryptotrade.Repository.Crypto;
 
 import com.mockcryptotrade.Domain.Crypto.PK.CryptoID;
 import com.mockcryptotrade.Domain.Crypto.Crypto;

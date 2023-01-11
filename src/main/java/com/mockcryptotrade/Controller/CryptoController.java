@@ -3,7 +3,7 @@ package com.mockcryptotrade.Controller;
 import com.mockcryptotrade.Common.ApiService;
 import com.mockcryptotrade.Domain.Crypto.Crypto;
 import com.mockcryptotrade.Domain.Crypto.CryptoDetail;
-import com.mockcryptotrade.Repository.CryptoInitRepo;
+import com.mockcryptotrade.Repository.Crypto.CryptoInitRepo;
 import com.mockcryptotrade.Service.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
