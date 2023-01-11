@@ -3,8 +3,13 @@ server:
   port: 8080
 
 spring:
+  devtools:
+    remote:
+      restart:
+        enabled: true
   thymeleaf:
     prefix: classpath:templates/
+    cache: false
   security:
     user:
       name: user
