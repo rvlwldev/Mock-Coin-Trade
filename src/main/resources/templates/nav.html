@@ -1,14 +1,8 @@
-<!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../static/css/bootstrap.css">
-</head>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <nav th:fragment="nav" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <a class="navbar-brand" href="#">navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,23 +21,29 @@
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
-            <div>
-                <!-- 비로그인 상태일 때 -->
-                <button class="btn btn-outline-info my-2 my-sm-0" style="margin-right: 8px;" data-toggle="modal"
-                    data-target="#modal_register" style="display: inline;">회원가입</button>
-                <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#modal_login"
-                    style="display: inline;">로그인</button>
 
-                <!-- 로그인 상태일 때 -->
-                <button class="btn btn-outline-secondary my-2 my-sm-0" data-toggle="modal" data-target="#modal_login"
-                    style="display: none;">로그아웃</button>
+            <div>
+                <!-- 비로그인상태 -->
+                <button sec:authorize="!isAuthenticated()" class="btn btn-outline-info my-2 my-sm-0"
+                    style="margin-right: 8px;" data-toggle="modal" data-target="#modal_register">회원가입
+                </button>
+                <button sec:authorize="!isAuthenticated()" class="btn btn-outline-success my-2 my-sm-0"
+                    data-toggle="modal" data-target="#modal_login">로그인
+                </button>
+
+                <!-- 로그인 상태 -->
+                <button sec:authorize="isAuthenticated()" 
+                    class="btn btn-outline-secondary my-2 my-sm-0"
+                    onclick="return confirm('로그아웃 하시겠습니까?') ? location.href='/logout' : false">
+                    로그아웃
+                </button>
+
             </div>
         </div>
     </nav>
 
-    <!-- 회원가입 폼 -->
-    <div class="modal fade" id="modal_register" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div th:fragment="register" class="modal fade" id="modal_register" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -54,44 +54,53 @@
                 </div>
                 <div class="modal-body">
                     <!-- 회원가입 폼 액션 구현필요 -->
-                    <form action="">
+                    <form method="post" name="createForm" action="/auth/register">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">아이디</label>
-                            <input type="text" class="form-control" id="userId">
+                            <input id="userID" type="text" class="form-control" name="ID">
+                            <label id="userID_label" for="message-text" class="col-form-label-sm"
+                                style="display: none;">
+                                <span style="color: red;">! 아이디는 4자 이상, 20자 이하입니다. </span>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">비밀번호</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
-                            <label for="message-text" class="col-form-label-sm" style="display: none;">
-                                <span>! 비밀번호는 8글자 이상으로 </span>
+                            <input id="userPW" class="form-control" name="password" type="password"></input>
+                            <label id="userPW_label" for="message-text" class="col-form-label-sm"
+                                style="display: none;">
+                                <span style="color: red;">! 비밀번호는 8글자 이상으로 </span>
                             </label>
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">비밀번호 확인</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
-                            <label for="message-text" class="col-form-label-sm">
-                                <span style="color: red;">! 비밀번호가 다름</span>
+                            <input id="userPW_check" class="form-control" type="password"></input>
+                            <label id="userPW_check_label" for="message-text" class="col-form-label-sm"
+                                style="display: none;">
+                                <span style="color: red;">! 비밀번호가 다릅니다!</span>
                             </label>
                         </div>
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">이메일</label>
-                            <input type="text" class="form-control" id="userId">
-                            <label for="message-text" class="col-form-label-sm">
+                            <input id="userEmail" type="text" class="form-control" name="email">
+                            <label id="userEmail_label" for="message-text" class="col-form-label-sm"
+                                style="display: none;">
                                 <span style="color: red;">! 올바른 이메일을 입력해주세요!</span>
                             </label>
                         </div>
+                        <div class="modal-footer justify-content-center">
+                            <button class="btn btn-primary" type="submit" onclick="return checkForm()">회원가입</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-primary" type="submit">회원가입</button>
+
+
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 로그인 폼-->
-    <div class="modal fade" id="modal_login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div th:fragment="login" class="modal fade" id="modal_login" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -102,24 +111,27 @@
                 </div>
                 <div class="modal-body">
                     <!-- 로그인폼에 로그인액션 넣어야함 -->
-                    <form action="">
+                    <form method="post" action="/auth/login">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">아이디</label>
-                            <input type="text" class="form-control" id="userId">
+                            <input type="text" class="form-control" id="userId" name="username">
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">비밀번호</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
+                            <input class="form-control" id="userPassword" type="password" name="password"></input>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> -->
+                            <button class="btn btn-info" type="submit">로그인!</button>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer row">
-                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> -->
-                    <button type="button" class="btn btn-info" type="submit">가입하기!</button>
-                </div>
+
             </div>
         </div>
     </div>
+
+
 </body>
 
 </html>
