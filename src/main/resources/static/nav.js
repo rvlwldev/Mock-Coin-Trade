@@ -77,8 +77,14 @@ function checkDupID(id) {
                 alert("중복된 아이디!");
             } else {
                 alert("회원가입 성공, 로그인 해주세요");
+                $("#loginButton").click();
             }
             return data;
         }
     });
+}
+
+function openLoginModal() {
+    alert('로그인이 필요합니다.');
+    document.getElementById("loginButton").click();
 }

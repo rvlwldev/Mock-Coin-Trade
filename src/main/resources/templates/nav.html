@@ -28,16 +28,14 @@
                     style="margin-right: 8px;" data-toggle="modal" data-target="#modal_register">회원가입
                 </button>
                 <button sec:authorize="!isAuthenticated()" class="btn btn-outline-success my-2 my-sm-0"
-                    data-toggle="modal" data-target="#modal_login">로그인
+                    data-toggle="modal" data-target="#modal_login" id="loginButton">로그인
                 </button>
 
                 <!-- 로그인 상태 -->
-                <button sec:authorize="isAuthenticated()" 
-                    class="btn btn-outline-secondary my-2 my-sm-0"
+                <button sec:authorize="isAuthenticated()" class="btn btn-outline-secondary my-2 my-sm-0"
                     onclick="return confirm('로그아웃 하시겠습니까?') ? location.href='/logout' : false">
                     로그아웃
                 </button>
-
             </div>
         </div>
     </nav>
