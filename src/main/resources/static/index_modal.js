@@ -8,12 +8,14 @@ var modal = new bootstrap.Modal(document.getElementById('modal_buy'), {
 // modal Click event grant
 document.getElementsByName("showModalButton").forEach(button => {
     button.addEventListener('click', function (e) {
-        let fullName = e.path[2].children[0].innerHTML;
-        let coinId = e.path[2].children[4].innerHTML;
-        let coinMarket = e.path[2].children[5].innerHTML;
-        let buyPrice = Number(e.path[2].children[1].innerHTML.replace(/[₩|,]/g, "",));
+        console.log(e.target.parentElement);
 
-        console.log("buyPrice : " + buyPrice);
+        // let fullName = e.path[2].children[0].innerHTML;
+        // let coinId = e.path[2].children[4].innerHTML;
+        // let coinMarket = e.path[2].children[5].innerHTML;
+        // let buyPrice = Number(e.path[2].children[1].innerHTML.replace(/[₩|,]/g, "",));
+
+        // console.log("buyPrice : " + buyPrice);
 
         showModal(fullName, coinId, coinMarket, buyPrice);
     });

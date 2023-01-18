@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../css/bootstrap.css">
 
+    <style>
+        .btn-group-xs>.btn,
+        .btn-xs {
+            padding: .25rem .4rem;
+            font-size: .875rem;
+            line-height: 0.9;
+            border-radius: .2rem;
+        }
+    </style>
+
     <title>MockCoin Trader MyPage</title>
 </head>
 
@@ -15,7 +25,10 @@
         <div th:replace="~{./nav :: register}"></div>
         <div th:replace="~{./nav :: login}"></div>
 
-        <h1>hello</h1>
+        <br />
+        <br />
+        <br />
+        <h1>마이페이지</h1>
 
         <!-- 탭메뉴 -->
         <ul class="nav nav-tabs" style="margin-top: 20px;">
@@ -29,10 +42,31 @@
 
         <div class="tab-content">
             <div class="tab-pane fade show active" id="main">
-                <p>Main 메인 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id ornare libero. Vivamus
-                    iaculis,
-                    justo
-                    vel mattis pharetra, nisi ligula varius nisl, sit amet mollis tortor ligula vitae nisi.</p>
+                <div class="d-grid gap-3">
+                    <div class="p-2 bg-light border">내 현재 수익률 : </div>
+                    <div class="p-2 bg-light border">내 현재 수익금 : </div>
+                  </div>
+
+                <table class="table table-dark table-sm table-responsive-md align-middle" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">이름</th>
+                            <th scope="col" style="text-align: center;">구매가</th>
+                            <th scope="col" style="text-align: center;">수익률</th>
+                            <th scope="col" style="width: 10%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <td class="align-middle" style="text-align: center;">비트코인</td>
+                        <td class="align-middle" style="text-align: center;">100 ₩</td>
+                        <td class="align-middle" style="text-align: center;">+23%</td>
+                        <td align="center">
+                            <button class="btn btn-danger btn-sm btn-block" style="margin: 0px;" onclick="">
+                                매도
+                            </button>
+                        </td>
+                    </tbody>
+                </table>
             </div>
             <div class="tab-pane fade" id="log">
                 <p>로그 Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt

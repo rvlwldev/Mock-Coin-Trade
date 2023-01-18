@@ -18,6 +18,7 @@
 
 function checkForm() {
     let id = $("#userID").val();
+    let nickname = $("#userNickname").val();
     let pw = $("#userPW").val();
     let pwCheck = $("#userPW_check").val();
     let email = $("#userEmail").val();
@@ -26,6 +27,13 @@ function checkForm() {
         checkFormReset();
         $("#userID_label").css("display", "inline");
         $("#userID").focus();
+        return false;
+    }
+
+    if (nickname.length < 2 || nickname.length > 6) {
+        checkFormReset();
+        $("#userNickname_label").css("display", "inline");
+        $("#userNickname").focus();
         return false;
     }
 
@@ -56,7 +64,20 @@ function checkForm() {
 
     var dup = checkDupID(id);
 
-    return dup;
+    if(!dup){
+        return false;
+    }
+
+    dup = checkDupNickName(nickname);
+
+    if (!dup) {
+        return false;
+    }
+
+    alert("회원가입 성공, 로그인 해주세요");
+    $("#loginButton").click();
+
+//    return true;
 }
 
 function checkFormReset() {
@@ -75,9 +96,23 @@ function checkDupID(id) {
             // true : 중복
             if (data) {
                 alert("중복된 아이디!");
-            } else {
-                alert("회원가입 성공, 로그인 해주세요");
-                $("#loginButton").click();
+                return false;
+            }
+            return data;
+        }
+    });
+}
+
+function checkDupNickName(nickname) {
+    $.ajax({
+        type: "POST",
+        url: "/auth/checkNickname",
+        data: { "nickname": nickname },
+        success: function (data) {
+            // true : 중복
+            if (data) {
+                alert("중복된 닉네임!");
+                return false;
             }
             return data;
         }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
     <nav th:fragment="nav" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">navbar</a>
+        <a class="navbar-brand" href="/">navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -11,7 +11,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">내 정보<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/myPage">내 정보<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">자유게시판</a>
@@ -59,6 +59,14 @@
                             <label id="userID_label" for="message-text" class="col-form-label-sm"
                                 style="display: none;">
                                 <span style="color: red;">! 아이디는 4자 이상, 20자 이하입니다. </span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">닉네임</label>
+                            <input id="userNickname" type="text" class="form-control" name="nickname">
+                            <label id="userNickname_label" for="message-text" class="col-form-label-sm"
+                                style="display: none;">
+                                <span style="color: red;">! 닉네임은 2자이상 6자 이하입니다 </span>
                             </label>
                         </div>
                         <div class="form-group">
