@@ -27,3 +27,9 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      multiline: true
