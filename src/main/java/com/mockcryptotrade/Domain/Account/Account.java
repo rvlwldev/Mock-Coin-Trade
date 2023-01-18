@@ -13,6 +13,9 @@ public class Account {
     @Column(name = "ACCOUNT_ID")
     private String ID;
 
+    @Column(name = "NICKNAME")
+    private String nickname;
+
     @Column(name = "PASSWORD")
     private String password;
 

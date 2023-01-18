@@ -40,4 +40,9 @@ public class LoginController {
         return accountRepo.existsById(id);
     }
 
+    @PostMapping("/checkNickname")
+    public boolean checkDupNickname(String nickname) {
+        return accountRepo.existsByNickname(nickname);
+    }
+
 }
