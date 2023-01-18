@@ -1,8 +1,9 @@
-package com.mockcryptotrade.Account.Entity;
+package com.mockcryptotrade.Asset.Entity;
 
-import com.mockcryptotrade.Account.Entity.PK.AssetPurchasePK;
+import com.mockcryptotrade.Asset.Entity.PK.AssetPK;
 import com.mockcryptotrade.Asset.DTO.PurchaseInfo;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +12,8 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "MOCK_ASSET")
-@IdClass(AssetPurchasePK.class)
+@IdClass(AssetPK.class)
+@NoArgsConstructor
 public class AssetPurchase {
 
     @Id
@@ -19,11 +21,11 @@ public class AssetPurchase {
     private String accountID;
 
     @Id
-    @Column(name = "CRYPTO_ID")
+    @Column(name = "CRYPTO_ID", insertable = false, updatable = false)
     private String cryptoID;
 
     @Id
-    @Column(name = "CRYPTO_MARKET")
+    @Column(name = "CRYPTO_MARKET", insertable = false, updatable = false)
     private String cryptoMarket;
 
     @Column(name = "CRYPTO_COUNT")
