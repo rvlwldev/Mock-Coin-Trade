@@ -1,7 +1,8 @@
 package com.mockcryptotrade.Crypto.Entity;
 
-import com.mockcryptotrade.Crypto.Entity.PK.CryptoID;
+import com.mockcryptotrade.Crypto.Entity.PK.CryptoPK;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -9,7 +10,8 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "CRYPTO")
-@IdClass(CryptoID.class)
+@IdClass(CryptoPK.class)
+@NoArgsConstructor
 public class Crypto {
 
     @Id
@@ -29,6 +31,11 @@ public class Crypto {
     @Column(name = "USE_YN")
     @ColumnDefault("1")
     private int useYn;
+
+    public Crypto(String CryptoId, String CryptoMarket) {
+        this.CryptoId = CryptoId;
+        this.CryptoMarket = CryptoMarket;
+    }
 
     public void setCryptoId(String initData) {
         CryptoId = initData.split("-")[1];
