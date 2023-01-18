@@ -22,193 +22,83 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">내 정보<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">자유게시판</a>
-                </li>
-                <!-- dropdown 메뉴 삭제 -->
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <div>
-                <!-- 비로그인 상태일 때 -->
-                <button class="btn btn-outline-info my-2 my-sm-0" style="margin-right: 8px;" data-toggle="modal"
-                    data-target="#modal_register" style="display: inline;">회원가입</button>
-                <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#modal_login"
-                    style="display: inline;">로그인</button>
 
-                <!-- 로그인 상태일 때 -->
-                <button class="btn btn-outline-secondary my-2 my-sm-0" data-toggle="modal" data-target="#modal_login"
-                    style="display: none;">로그아웃</button>
-            </div>
-        </div>
-    </nav>
 
-    <!-- 회원가입 폼 -->
-    <div class="modal fade" id="modal_register" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">회원가입</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- 회원가입 폼 액션 구현필요 -->
-                    <form action="">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">아이디</label>
-                            <input type="text" class="form-control" id="userId">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">비밀번호</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
-                            <label for="message-text" class="col-form-label-sm" style="display: none;">
-                                <span>! 비밀번호는 8글자 이상으로 </span>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">비밀번호 확인</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
-                            <label for="message-text" class="col-form-label-sm">
-                                <span style="color: red;">! 비밀번호가 다름</span>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">이메일</label>
-                            <input type="text" class="form-control" id="userId">
-                            <label for="message-text" class="col-form-label-sm">
-                                <span style="color: red;">! 올바른 이메일을 입력해주세요!</span>
-                            </label>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-primary" type="submit">회원가입</button>
-                </div>
-            </div>
-        </div>
+<div class="container" style="margin-top: 10rem;">
+
+    <div th:replace="~{./nav :: nav}"></div>
+    <div th:replace="~{./nav :: register}"></div>
+    <div th:replace="~{./nav :: login}"></div>
+
+    <!-- 게시판 목록 -->
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm" style="table-layout: fixed">
+            <thead>
+            <tr style="text-align: center;">
+                <th style="width: 7%;">번호</th>
+                <th style="width: 53%;">글제목</th>
+                <th style="width: 10%;">작성자</th>
+                <th style="width: 10%;">조회수</th>
+                <th style="width: 10%;">추천수</th>
+                <th style="width: 10%;">날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th style="text-align: center;">2</th>
+                <td><a href="#" style="color: black;"> asdasd</a></td>
+                <td style="text-align: center;">test</td>
+                <td style="text-align: center;">123123</td>
+                <td style="text-align: center;">-3</td>
+                <td style="text-align: center;">2022.11.11</td>
+            </tr>
+            <tr>
+                <th style="text-align: center;">1</th>
+                <td><a href="#" style="color: black;"> 123123</a></td>
+                <td style="text-align: center;">admin</td>
+                <td style="text-align: center;">3333</td>
+                <td style="text-align: center;">33</td>
+                <td style="text-align: center;">2022.11.11</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- 로그인 폼-->
-    <div class="modal fade" id="modal_login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- 로그인폼에 로그인액션 넣어야함 -->
-                    <form action="">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">아이디</label>
-                            <input type="text" class="form-control" id="userId">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">비밀번호</label>
-                            <input class="form-control" id="userPassword" type="password"></input>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer row">
-                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button> -->
-                    <button type="button" class="btn btn-info" type="submit">가입하기!</button>
-                </div>
-            </div>
-        </div>
+    <hr>
+    <button type="button" class="btn btn-info" type="submit">글쓰기!</button>
+
+    <div class="d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <div class="container" style="margin-top: 10rem;">
 
-        <!-- 게시판 목록 -->
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered table-sm" style="table-layout: fixed">
-                <thead>
-                    <tr style="text-align: center;">
-                        <th style="width: 7%;">번호</th>
-                        <th style="width: 53%;">글제목</th>
-                        <th style="width: 10%;">작성자</th>
-                        <th style="width: 10%;">조회수</th>
-                        <th style="width: 10%;">추천수</th>
-                        <th style="width: 10%;">날짜</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th style="text-align: center;">2</th>
-                        <td><a href="#" style="color: black;"> asdasd</a></td>
-                        <td style="text-align: center;">test</td>
-                        <td style="text-align: center;">123123</td>
-                        <td style="text-align: center;">-3</td>
-                        <td style="text-align: center;">2022.11.11</td>
-                    </tr>
-                    <tr>
-                        <th style="text-align: center;">1</th>
-                        <td><a href="#" style="color: black;"> 123123</a></td>
-                        <td style="text-align: center;">admin</td>
-                        <td style="text-align: center;">3333</td>
-                        <td style="text-align: center;">33</td>
-                        <td style="text-align: center;">2022.11.11</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <hr>
-        <button type="button" class="btn btn-info" type="submit">글쓰기!</button>
-
-        <div class="d-flex justify-content-center">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+</div> <!-- container -->
 
 
-    </div> <!-- container -->
+<!-- 공백 -->
+<div style="margin-bottom: 4rem;"></div>
 
 
-
-    <!-- 공백 -->
-    <div style="margin-bottom: 4rem;"></div>
-
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
-    <script src="../../static/js/bootstrap.bundle.js"></script>
-    <script src="../../static/js/bootstrap.js"></script>
+<script src="../../static/js/bootstrap.bundle.js"></script>
+<script src="../../static/js/bootstrap.js"></script>
+<script src="./nav.js"></script>
 </body>
 
 </html>

@@ -98,18 +98,18 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="">
+                            <div action="/user/buy" method="post">
 
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">갯수로 매입!</label>
-                                    <input id="input_count" type="number" class="form-control" value="0"
-                                        max="999999999">
+                                    <input id="input_count" type="number" class="form-control" value="0" max="999999999"
+                                        name="count">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">가격으로 매입!</label>
                                     <input id="input_price" type="number" class="form-control" value="0"
-                                        max="9999999999" readonly>
+                                        max="9999999999" name="price" readonly>
                                 </div>
 
                                 <label for="recipient-name" class="col-form-label">갯수 : </label>
@@ -119,11 +119,12 @@
 
                                 <label for="recipient-name" class="col-form-label">가격 : </label>
                                 <span id="result_price"></span>
-                            </form>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-primary" onclick="return submitCheck()">매입</button>
+                            </div>
                         </div>
-                        <div class="modal-footer justify-content-center">
-                            <button type="button" class="btn btn-primary" onclick="return showModal()">매입</button>
-                        </div>
+
 
                     </div>
                 </div>
