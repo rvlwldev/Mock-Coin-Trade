@@ -2,11 +2,13 @@ package com.mockcryptotrade.Asset.Entity;
 
 import com.mockcryptotrade.Asset.Entity.PK.AssetPK;
 import com.mockcryptotrade.Crypto.Entity.Crypto;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 @Table(name = "MOCK_ASSET")
 @IdClass(AssetPK.class)
 public class AssetSelect {

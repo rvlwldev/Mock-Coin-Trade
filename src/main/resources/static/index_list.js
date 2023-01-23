@@ -11,7 +11,7 @@ function refreshList() {
             success: function (data) {
                 // emptyAndRedraw(data);
                 replaceDraw(data);
-                clearInterval(interval);
+                // clearInterval(interval);
             },
             error: function () {
                 console.log("ERROR");

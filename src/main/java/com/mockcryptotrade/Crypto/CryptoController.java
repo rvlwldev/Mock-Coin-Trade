@@ -4,7 +4,6 @@ import com.mockcryptotrade.ExternalAPI.ApiService;
 import com.mockcryptotrade.Crypto.Entity.Crypto;
 import com.mockcryptotrade.Crypto.DTO.CryptoDetail;
 import com.mockcryptotrade.Crypto.Repository.CryptoInitRepo;
-import com.mockcryptotrade.Crypto.Service.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

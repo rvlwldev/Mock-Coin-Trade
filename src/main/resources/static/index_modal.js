@@ -147,8 +147,8 @@ function submitCheck() {
     modal_info.buyPrice = $('#result_price').text().replace(" ₩", "");
     modal_info.buyCount = $('#result_count').text().replace("개", "");
 
-    modal_info.buyPrice = modal_info.buyPrice.replace(",", "");
-    modal_info.buyCount = modal_info.buyCount.replace(",", "");
+    modal_info.buyPrice = modal_info.buyPrice.replaceAll(",", "");
+    modal_info.buyCount = modal_info.buyCount.replaceAll(",", "");
 
     $.ajax({
         type: "POST",

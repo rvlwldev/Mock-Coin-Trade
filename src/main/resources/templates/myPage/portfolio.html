@@ -43,28 +43,58 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="main">
                 <div class="d-grid gap-3">
-                    <div class="p-2 bg-light border">내 현재 수익률 : </div>
-                    <div class="p-2 bg-light border">내 현재 수익금 : </div>
-                  </div>
+
+
+
+                    <div class="p-2 bg-light border" id="total_percent" th:text="'내 현재 수익률 : ' + ${totalPercent} + '%'"></div>
+
+
+                    <th:block th:if="${totalMoney > 0}">
+                        <div class="p-2 bg-light border" id="total_money" th:text="'내 현재 수익금 : ' +  '+'  +${totalMoney} + ' ₩' "></div>
+                    </th:block>
+                    <th:block th:if="${totalMoney &lt; 0}">
+                        <div class="p-2 bg-light border" id="total_money" th:text="'내 현재 수익금 : ' + ${totalMoney} + ' ₩' "></div>
+                    </th:block>
+                    <th:block th:if="${totalMoney == 0}">
+                        <div class="p-2 bg-light border" id="total_money" th:text="내 현재 수익금 : 0 ₩"></div>
+                    </th:block>
+
+
+                    <!-- <div class="p-2 bg-light border">내 현재 수익금 : </div> -->
+                </div>
 
                 <table class="table table-dark table-sm table-responsive-md align-middle" style="table-layout: fixed">
                     <thead>
                         <tr>
                             <th scope="col" style="text-align: center;">이름</th>
-                            <th scope="col" style="text-align: center;">구매가</th>
+                            <th scope="col" style="text-align: center;">보유개수</th>
+                            <th scope="col" style="text-align: center;">투자금액</th>
+                            <th scope="col" style="text-align: center;">평균단가</th>
+                            <th scope="col" style="text-align: center;">현재가</th>
                             <th scope="col" style="text-align: center;">수익률</th>
                             <th scope="col" style="width: 10%;"></th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <td class="align-middle" style="text-align: center;">비트코인</td>
-                        <td class="align-middle" style="text-align: center;">100 ₩</td>
-                        <td class="align-middle" style="text-align: center;">+23%</td>
-                        <td align="center">
-                            <button class="btn btn-danger btn-sm btn-block" style="margin: 0px;" onclick="">
-                                매도
-                            </button>
-                        </td>
+                        <tr th:each="list: ${list}">
+                            <td class="align-middle" style="text-align: center;" th:text="${list.fullNameKO}"></td>
+                            <td class="align-middle" style="text-align: center;" th:text="${list.cryptoCount} + '개' ">
+                            </td>
+                            <td class="align-middle" style="text-align: center;" th:text="${list.avgMoneyValue} + '₩' ">
+                            </td>
+                            <td class="align-middle" style="text-align: center;" th:text="${list.pricePerOne} + '₩' ">
+                            </td>
+                            <td class="align-middle" style="text-align: center;" th:text="${list.nowPrice} + '₩' ">
+                            </td>
+                            <td class="align-middle" style="text-align: center;" th:text="${list.rateOfReturn} + ' %' ">
+                            </td>
+                            <td align="center">
+                                <button name="showSellButton" class="btn btn-danger btn-sm btn-block"
+                                    style="margin: 0px;" onclick="">
+                                    매도
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -76,10 +106,61 @@
         </div>
     </div>
 
+    <!-- 매도 폼 -->
+    <div class="modal fade" id="modal_sell" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel"><span>코인이름 매도</span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div action="/user/buy" method="post">
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">갯수로 매도!</label>
+                                <input id="input_count" type="number" class="form-control" value="0" max="999999999"
+                                    name="count">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">가격으로 매도!</label>
+                                <input id="input_price" type="number" class="form-control" value="0" max="9999999999"
+                                    name="price" readonly>
+                            </div>
+
+                            <label for="recipient-name" class="col-form-label">갯수 : </label>
+                            <span id="result_count"></span>
+
+                            <br />
+
+                            <label for="recipient-name" class="col-form-label">가격 : </label>
+                            <span id="result_price"></span>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" onclick="return submitCheck()">매입</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/nav.js"></script>
+
+    <script src="./myPage/portfolio.js"></script>
+
 </body>
 
 </html>

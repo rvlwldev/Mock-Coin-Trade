@@ -1,4 +1,4 @@
-package com.mockcryptotrade.Crypto.Service;
+package com.mockcryptotrade.Crypto;
 
 import com.mockcryptotrade.Crypto.Entity.Crypto;
 import com.mockcryptotrade.Crypto.DTO.CryptoInit;
