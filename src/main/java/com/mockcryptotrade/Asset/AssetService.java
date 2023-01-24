@@ -38,7 +38,7 @@ public class AssetService {
     CryptoRepo cryptoRepo;
 
     public AssetPurchase getAssetPurchase(PurchaseInfo purchaseDTO) {
-        AssetPK pk = new AssetPK(loginService.getUserID(), purchaseDTO.getCoinId(), purchaseDTO.getCoinMarket());
+        AssetPK pk = new AssetPK(loginService.getUserID(), purchaseDTO.getCryptoId(), purchaseDTO.getCryptoMarket());
         Optional<AssetPurchase> reserves = assetPurchaseRepo.findById(pk);
 
         AssetPurchase target;

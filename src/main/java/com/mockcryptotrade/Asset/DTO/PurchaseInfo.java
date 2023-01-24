@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class PurchaseInfo {
-    private String coinId;
-    private String coinMarket;
+    private String CryptoId;
+    private String CryptoMarket;
     private double buyPrice;
     private double buyCount;
 }

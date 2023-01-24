@@ -42,8 +42,8 @@ public class AssetPurchase {
 
     public AssetPurchase(String accountID, PurchaseInfo dto) {
         this.accountID = accountID;
-        this.cryptoID = dto.getCoinId();
-        this.cryptoMarket = dto.getCoinMarket();
+        this.cryptoID = dto.getCryptoId();
+        this.cryptoMarket = dto.getCryptoMarket();
         this.cryptoCount = dto.getBuyCount();
         this.avgMoneyValue = dto.getBuyPrice();
         this.firstBuyDate = LocalDateTime.now();
