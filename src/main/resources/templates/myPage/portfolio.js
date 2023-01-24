@@ -62,7 +62,7 @@ var modal = new bootstrap.Modal(document.getElementById('modal_sell'), {
 
 var sell_info = {
     ownCount: 0,
-    ownPrice: 0,
+    buyPrice: 0,
     maxCount: 0,
     maxPrice: 0
 }
@@ -70,9 +70,6 @@ var sell_info = {
 // 매도버튼 클릭
 document.getElementsByName("showSellButton").forEach(button => {
     button.addEventListener('click', function (e) {
-        // console.log(e.target.parentElement.parentElement);
-        // console.log(e.target.parentElement.parentElement.children);
-
         let coinName = e.target.parentElement.parentElement.children[0].innerText;
 
         let ownCount = e.target.parentElement.parentElement.children[1].innerText;
@@ -80,7 +77,10 @@ document.getElementsByName("showSellButton").forEach(button => {
 
         let avgBuyPrice = e.target.parentElement.parentElement.children[2].innerText;
         let avgPricePerOne = e.target.parentElement.parentElement.children[3].innerText;
-        
+
+        sell_info.ownCount = ownCount;
+        sell_info.buyPrice = avgBuyPrice;
+
         // info 
         console.log("보유 개수 : " + toPureNumber(ownCount));
         console.log("평균 매입가 : " + toPureNumber(avgBuyPrice));
@@ -99,33 +99,44 @@ function showModal(fullName) {
     $('#modalLabel').text(fullName + " 매도");
 
     // result 설정
+    $('#input_count').val(1);
+    $('#result_count').text("1개");
+
+    $('#input_price').val(toNumberFormat(sell_info.ownCount) + "개");
+    $('#result_price').text(toNumberFormat(sell_info.maxPrice) + " ₩");
 
     modal.show();
+    $('#input_count').focus();
 }
 
 
 
 // dynamic event
 document.getElementById('input_count').addEventListener('focus', function (e) {
-    modalEvent();
+    modalEvent(e);
 });
 document.getElementById('input_count').addEventListener('change', function (e) {
-    modalEvent();
+    modalEvent(e);
 });
 document.getElementById('input_count').addEventListener('keyup', function (e) {
-    modalEvent();
+    modalEvent(e);
 });
 
 document.getElementById('input_price').addEventListener('focus', function (e) {
-    modalEvent();
+    modalEvent(e);
 });
 document.getElementById('input_price').addEventListener('change', function (e) {
-    modalEvent();
+    modalEvent(e);
 });
 document.getElementById('input_price').addEventListener('keyup', function (e) {
-    modalEvent();
+    modalEvent(e);
 });
 
 function modalEvent() {
 
+}
+
+function toNumberFormat(number) {
+    return Number(number).toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }

@@ -1,21 +1,4 @@
-//window.addEventListener('load', function () {
-//    // 네비바 추가
-//    var allElements = document.getElementsByTagName('header');
-//    Array.prototype.forEach.call(allElements, function (el) {
-//        var includePath = el.dataset.includePath;
-//        if (includePath) {
-//            var xhttp = new XMLHttpRequest();
-//            xhttp.onreadystatechange = function () {
-//                if (this.readyState == 4 && this.status == 200) {
-//                    el.outerHTML = this.responseText;
-//                }
-//            };
-//            xhttp.open('GET', includePath, true);
-//            xhttp.send();
-//        }
-//    });
-//});
-
+// TODO : @Valid 로 변경 필요
 function checkForm() {
     let id = $("#userID").val();
     let nickname = $("#userNickname").val();

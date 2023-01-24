@@ -52,17 +52,17 @@
                 </thead>
                 <tbody id="tableBody">
                     <tr th:each="list: ${list}">
-                        <td class="align-middle" style="text-align: center;" th:text="${list.fullNameKO}"></td>
-                        <td class="align-middle" style="text-align: right;"
+                        <td name="fullNameKO" class="align-middle" style="text-align: center;" th:text="${list.fullNameKO}"></td>
+                        <td name="tradePrice" class="align-middle" style="text-align: right;"
                             data-th-text="${#numbers.formatInteger(list.tradePrice, 1, 'COMMA')} + ' ₩'"></td>
-                        <td class="align-middle" style="text-align: right;" th:text="${list.signedChangeRate} + ' %'">
+                        <td name="signedChangeRate" class="align-middle" style="text-align: right;" th:text="${list.signedChangeRate} + ' %'">
                         </td>
-                        <td class="align-middle" style="text-align: right;"
+                        <td name="accTradePrice24h" class="align-middle" style="text-align: right;"
                             data-th-text="${#numbers.formatInteger(list.accTradePrice24h, 1, 'COMMA')} + '백만 원'">
                         </td>
 
-                        <td class="align-middle" style="display: none;" th:text="${list.CryptoId}"></td>
-                        <td class="align-middle" style="display: none;" th:text="${list.CryptoMarket}"></td>
+                        <td name="CryptoId" class="align-middle" style="display: none;" th:text="${list.CryptoId}"></td>
+                        <td name="CryptoMarket" class="align-middle" style="display: none;" th:text="${list.CryptoMarket}"></td>
 
                         <!-- data-toggle="modal"
                             data-target="#modal_buy" -->
@@ -135,9 +135,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="./js/bootstrap.bundle.js"></script>
     <script src="./js/bootstrap.js"></script>
+    <script src="./js/common/customModule.js"></script>
+
     <script src="./nav.js"></script>
-    <script src="./index_list.js"></script>
-    <script src="./index_modal.js"></script>
+    <script src="./index.js"></script>
 
 </body>
 
