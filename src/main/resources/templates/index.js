@@ -52,7 +52,7 @@ document.getElementsByName("showModalButton").forEach(button => {
         openModal(
             modal_info.fullNameKO,
             "매입",
-            modal_info.fullNameKO,
+            1,
             modal_info.tradePrice
         );
 

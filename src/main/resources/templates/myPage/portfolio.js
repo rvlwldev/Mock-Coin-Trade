@@ -1,37 +1,36 @@
-// TODO: 매도금액 또는 매도갯수의 따라 반응형 데이터 변경 (result_count, result_price) [v]
-// TODO: 보유한 최대갯수, 보유한 최대금액 이상 또는 0 매도 안되게 막기
-
-// TODO: amqp (RabbitMQ) 적용 알아보기
-// subscribe로 서버 부하 줄여야댐
-
-// TODO: interval 생성해서 실시간 정보조회
+// TODO: amqp (RabbitMQ) 적용 알아보기 (interval 말구 subscribe 방식으로 ?)
 
 setTimeout(function () {
     refreshList();
 }, 1000);
 
 function refreshList() {
-    var interval = setInterval(function () {
-        $.ajax({
-            type: "POST",
-            url: "/myPage/refresh",
-            success: function (data) {
-                replaceList(data);
-            },
-            error: function () {
-                console.log("ERROR");
-                setTimeout(function () {
-                    refreshList();
-                }, 1000);
-            }
-        });
-    }, 800);
+    var interval = setInterval(
+        function () {
+            $.ajax({
+                type: "POST",
+                url: "/myPage/refresh",
+                success: function (data) {
+                    replaceList(data);
+                },
+                error: function () {
+                    console.error("ERROR");
+                    clearInterval(interval);
+
+                    setTimeout(function () {
+                        refreshList();
+                    }, 10000);
+
+                }
+            });
+        }
+        , 800);
 }
 
 
-// 보유코인의 실시간으로 
-// 코인별 [현재가,수익률]
-// 전체의 [현재가,수익률] 계산되어야함
+// 보유코인의 실시간으로 [v]
+// 코인별 [현재가,수익률], 전체의 [현재가,수익률] 계산되어야함 [v]
+
 function replaceList(data) {
     let bodyChildren = $('#tableBody').children();
 
@@ -44,99 +43,130 @@ function replaceList(data) {
         let info = data[0][i];
 
         if (tds.item(0).innerHTML == info.fullNameKO) {
-            // 현재가
             tds.item(4).innerHTML = info.nowPrice.toLocaleString() + ' ₩';
-            // 수익률
             tds.item(5).innerHTML = info.rateOfReturn.toLocaleString() + ' %';
         }
     }
 }
 
+// TODO: 보유한 최대갯수, 보유한 최대금액 이상 또는 0 매도 안되게 막기 [v]
+// TODO: 매도금액 또는 매도갯수의 따라 반응형 데이터 변경 (result_count, result_price) [v]
+var modal = getModalObject("modal_sell");
+var modal_info = {};
+var modal_inputMode = "count";
 
-
-var modal = new bootstrap.Modal(document.getElementById('modal_sell'), {
-    backdrop: true,
-    keyboard: true,
-    focus: true
+// dynamic event
+$("#input_count").bind("focus", function () {
+    modal_inputMode = "count";
+    model_changeInputMode();
+    setViewOfModalResult();
 });
+$("#input_price").bind("focus", function () {
+    modal_inputMode = "price";
+    model_changeInputMode();
+    setViewOfModalResult();
+});
+$("#input_count").bind("change keyup", function () { setViewOfModalResult(); });
+$("#input_price").bind("change keyup", function () { setViewOfModalResult(); });
 
-var sell_info = {
-    ownCount: 0,
-    buyPrice: 0,
-    maxCount: 0,
-    maxPrice: 0
-}
-
-// 매도버튼 클릭
 document.getElementsByName("showSellButton").forEach(button => {
     button.addEventListener('click', function (e) {
-        let coinName = e.target.parentElement.parentElement.children[0].innerText;
+        modal_info = getTableRowInfo(e.target.parentElement.parentElement.children);
 
-        let ownCount = e.target.parentElement.parentElement.children[1].innerText;
-        let nowPrice = e.target.parentElement.parentElement.children[4].innerText;
+        openModal(
+            modal_info.fullNameKO,
+            "매도",
+            modal_info.cryptoCount,
+            modal_info.investAmount
+        );
 
-        let avgBuyPrice = e.target.parentElement.parentElement.children[2].innerText;
-        let avgPricePerOne = e.target.parentElement.parentElement.children[3].innerText;
-
-        sell_info.ownCount = ownCount;
-        sell_info.buyPrice = avgBuyPrice;
-
-        // info 
-        console.log("보유 개수 : " + toPureNumber(ownCount));
-        console.log("평균 매입가 : " + toPureNumber(avgBuyPrice));
-        console.log("평단가 : " + toPureNumber(avgPricePerOne));
-        console.log("현재가 : " + toPureNumber(nowPrice));
-
-        showModal(coinName);
+        setViewOfModalResult();
     });
 });
 
-function toPureNumber(str) {
-    return Number(str.replace(/[^0-9.]/g, ""))
+function setViewOfModalResult() {
+    let price, count;
+
+    if (modal_inputMode == "count") {
+        count = toPureNumber($('#input_count').val());
+        price = count * toPureNumber(modal_info.nowPrice);
+    }
+    else if (modal_inputMode == "price") {
+        price = toPureNumber($('#input_price').val());
+        count = price / toPureNumber(modal_info.nowPrice);
+    }
+
+    $('#result_count').text(toNumberFormat(count) + "개");
+    $('#result_price').text(toNumberFormat(price) + " ₩");
+
+    let sellCount = toPureNumber($('#result_count').text());
+
+    if (sellCount > toPureNumber(modal_info.cryptoCount || sellCount <= 0)) {
+        $('#sellWarning').css('display', 'inline');
+        $("#sellButton").attr("disabled", true);
+    } else {
+        $('#sellWarning').css('display', 'none');
+        $("#sellButton").attr("disabled", false);
+    }
 }
 
-function showModal(fullName) {
-    $('#modalLabel').text(fullName + " 매도");
+function model_changeInputMode() {
+    if (modal_inputMode == "count") {
+        $("#input_count").attr("readOnly", false);
+        $("#input_price").attr("readOnly", true);
+    }
+    else if (modal_inputMode == "price") {
+        $("#input_count").attr("readOnly", true);
+        $("#input_price").attr("readOnly", false);
+    }
+};
 
-    // result 설정
-    $('#input_count').val(1);
-    $('#result_count').text("1개");
-
-    $('#input_price').val(toNumberFormat(sell_info.ownCount) + "개");
-    $('#result_price').text(toNumberFormat(sell_info.maxPrice) + " ₩");
-
-    modal.show();
-    $('#input_count').focus();
+function submitCheck() {
+    $.ajax({
+        type: "POST",
+        url: "/user/sell",
+        data: convertModalInfoToDto(),
+        success: function (data) {
+            modal.hide();
+            location.reload();
+        },
+        error: function () {
+            alert("ERROR");
+        }
+    });
 }
 
-
-
-// dynamic event
-document.getElementById('input_count').addEventListener('focus', function (e) {
-    modalEvent(e);
-});
-document.getElementById('input_count').addEventListener('change', function (e) {
-    modalEvent(e);
-});
-document.getElementById('input_count').addEventListener('keyup', function (e) {
-    modalEvent(e);
-});
-
-document.getElementById('input_price').addEventListener('focus', function (e) {
-    modalEvent(e);
-});
-document.getElementById('input_price').addEventListener('change', function (e) {
-    modalEvent(e);
-});
-document.getElementById('input_price').addEventListener('keyup', function (e) {
-    modalEvent(e);
-});
-
-function modalEvent() {
-
+function convertModalInfoToDto() {
+    return {
+        cryptoId: modal_info.cryptoID,
+        cryptoMarket: modal_info.cryptoMarket,
+        pricePerOne: toPureNumber(modal_info.pricePerOne),
+        sellCount: toPureNumber($('#result_count').text()),
+        sellPrice: toPureNumber($('#result_count').text()) * toPureNumber(modal_info.nowPrice),
+        profitMoney: getProfit(),
+        rateOfReturn: toPureNumber(modal_info.rateOfReturn)
+    }
 }
 
-function toNumberFormat(number) {
-    return Number(number).toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+function getProfit() {
+    let sellCount = toPureNumber($('#result_count').text());
+    let nowPrice = toPureNumber(modal_info.nowPrice) * sellCount;
+    let buyPrice = toPureNumber(modal_info.pricePerOne) * sellCount;
+    return buyPrice - nowPrice;
+}
+
+function resetLog() {
+    if (confirm("모든 통계를 삭제하시겠습니까?")) {
+        $.ajax({
+            type: "POST",
+            url: "/user/resetLog",
+            success: function (data) {
+                alert(data);
+                location.reload();
+            },
+            error: function () {
+                alert("ERROR");
+            }
+        });
+    }
 }

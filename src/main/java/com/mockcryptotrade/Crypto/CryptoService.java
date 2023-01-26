@@ -40,7 +40,12 @@ public class CryptoService {
                     .append(",");
         }
 
-        return paramBuilder.substring(0, paramBuilder.length() - 1);
+        try {
+            return paramBuilder.substring(0, paramBuilder.length() - 1);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 }

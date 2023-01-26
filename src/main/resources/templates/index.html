@@ -22,9 +22,6 @@
 
 <body>
     <div class="container">
-
-        <!-- <header data-include-path="/nav.html"></header> -->
-
         <div th:replace="~{./nav :: nav}"></div>
         <div th:replace="~{./nav :: register}"></div>
         <div th:replace="~{./nav :: login}"></div>
@@ -52,17 +49,20 @@
                 </thead>
                 <tbody id="tableBody">
                     <tr th:each="list: ${list}">
-                        <td name="fullNameKO" class="align-middle" style="text-align: center;" th:text="${list.fullNameKO}"></td>
+                        <td name="fullNameKO" class="align-middle" style="text-align: center;"
+                            th:text="${list.fullNameKO}"></td>
                         <td name="tradePrice" class="align-middle" style="text-align: right;"
                             data-th-text="${#numbers.formatInteger(list.tradePrice, 1, 'COMMA')} + ' ₩'"></td>
-                        <td name="signedChangeRate" class="align-middle" style="text-align: right;" th:text="${list.signedChangeRate} + ' %'">
+                        <td name="signedChangeRate" class="align-middle" style="text-align: right;"
+                            th:text="${list.signedChangeRate} + ' %'">
                         </td>
                         <td name="accTradePrice24h" class="align-middle" style="text-align: right;"
                             data-th-text="${#numbers.formatInteger(list.accTradePrice24h, 1, 'COMMA')} + '백만 원'">
                         </td>
 
                         <td name="CryptoId" class="align-middle" style="display: none;" th:text="${list.CryptoId}"></td>
-                        <td name="CryptoMarket" class="align-middle" style="display: none;" th:text="${list.CryptoMarket}"></td>
+                        <td name="CryptoMarket" class="align-middle" style="display: none;"
+                            th:text="${list.CryptoMarket}"></td>
 
                         <!-- data-toggle="modal"
                             data-target="#modal_buy" -->

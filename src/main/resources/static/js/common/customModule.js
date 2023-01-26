@@ -6,7 +6,7 @@ function toNumberFormat(number) {
 
 // toOnlyNumber
 function toPureNumber(numberStr) {
-    return Number(numberStr.replace(/[^0-9.]/g, ""))
+    return Number(numberStr.replace(/[^0-9.-]/g, ""))
 }
 
 // modal

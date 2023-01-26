@@ -1,7 +1,8 @@
 package com.mockcryptotrade.Asset.Entity;
 
-import com.mockcryptotrade.Asset.Entity.PK.AssetPK;
 import com.mockcryptotrade.Asset.DTO.PurchaseInfo;
+import com.mockcryptotrade.Asset.DTO.SellInfo;
+import com.mockcryptotrade.Asset.Entity.PK.AssetPK;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

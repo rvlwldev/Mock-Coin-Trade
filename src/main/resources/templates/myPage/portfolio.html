@@ -44,23 +44,21 @@
             <div class="tab-pane fade show active" id="main">
                 <div class="d-grid gap-3">
 
-
-
-                    <div class="p-2 bg-light border" id="total_percent" th:text="'내 현재 수익률 : ' + ${totalPercent} + '%'"></div>
-
+                    <div class="p-2 bg-light border" id="total_percent" th:text="'내 현재 수익률 : ' + ${totalPercent} + '%'">
+                    </div>
 
                     <th:block th:if="${totalMoney > 0}">
-                        <div class="p-2 bg-light border" id="total_money" th:text="'내 현재 수익금 : ' +  '+'  +${totalMoney} + ' ₩' "></div>
+                        <div class="p-2 bg-light border" id="total_money"
+                            th:text="'내 현재 수익금 : ' +  '+'  +${totalMoney} + ' ₩' "></div>
                     </th:block>
                     <th:block th:if="${totalMoney &lt; 0}">
-                        <div class="p-2 bg-light border" id="total_money" th:text="'내 현재 수익금 : ' + ${totalMoney} + ' ₩' "></div>
+                        <div class="p-2 bg-light border" id="total_money"
+                            th:text="'내 현재 수익금 : ' + ${totalMoney} + ' ₩' "></div>
                     </th:block>
                     <th:block th:if="${totalMoney == 0}">
-                        <div class="p-2 bg-light border" id="total_money" th:text="내 현재 수익금 : 0 ₩"></div>
+                        <div class="p-2 bg-light border" id="total_money" th:text="|내 현재 수익금 : 0 ₩|"></div>
                     </th:block>
 
-
-                    <!-- <div class="p-2 bg-light border">내 현재 수익금 : </div> -->
                 </div>
 
                 <table class="table table-dark table-sm table-responsive-md align-middle" style="table-layout: fixed">
@@ -68,8 +66,8 @@
                         <tr>
                             <th scope="col" style="text-align: center;">이름</th>
                             <th scope="col" style="text-align: center;">보유개수</th>
-                            <th scope="col" style="text-align: center;">투자금액</th>
-                            <th scope="col" style="text-align: center;">평균단가</th>
+                            <th scope="col" style="text-align: center;">평가금액</th>
+                            <th scope="col" style="text-align: center;">평균매입가</th>
                             <th scope="col" style="text-align: center;">현재가</th>
                             <th scope="col" style="text-align: center;">수익률</th>
                             <th scope="col" style="width: 10%;"></th>
@@ -77,20 +75,28 @@
                     </thead>
                     <tbody id="tableBody">
                         <tr th:each="list: ${list}">
-                            <td class="align-middle" style="text-align: center;" th:text="${list.fullNameKO}"></td>
-                            <td class="align-middle" style="text-align: center;" th:text="${list.cryptoCount} + '개' ">
+                            <td name="fullNameKO" class="align-middle" style="text-align: center;"
+                                th:text="${list.fullNameKO}"></td>
+                            <td name="cryptoCount" class="align-middle" style="text-align: center;"
+                                th:text="${list.cryptoCount} + '개' ">
                             </td>
-                            <td class="align-middle" style="text-align: center;" th:text="${list.avgMoneyValue} + '₩' ">
+                            <td name="investAmount" class="align-middle" style="text-align: center;"
+                                th:text="${list.avgMoneyValue} + '₩' ">
                             </td>
-                            <td class="align-middle" style="text-align: center;" th:text="${list.pricePerOne} + '₩' ">
+                            <td name="pricePerOne" class="align-middle" style="text-align: center;"
+                                th:text="${list.pricePerOne} + '₩' ">
                             </td>
-                            <td class="align-middle" style="text-align: center;" th:text="${list.nowPrice} + '₩' ">
+                            <td name="nowPrice" class="align-middle" style="text-align: center;"
+                                th:text="${list.nowPrice} + '₩' ">
                             </td>
-                            <td class="align-middle" style="text-align: center;" th:text="${list.rateOfReturn} + ' %' ">
+                            <td name="rateOfReturn" class="align-middle" style="text-align: center;"
+                                th:text="${list.rateOfReturn} + ' %' ">
                             </td>
+                            <td name="cryptoID" style="display: none;" th:text="${list.cryptoID}"></td>
+                            <td name="cryptoMarket" style="display: none;" th:text="${list.cryptoMarket}"></td>
                             <td align="center">
                                 <button name="showSellButton" class="btn btn-danger btn-sm btn-block"
-                                    style="margin: 0px;" onclick="">
+                                    style="margin: 0px;">
                                     매도
                                 </button>
                             </td>
@@ -99,9 +105,74 @@
                 </table>
             </div>
             <div class="tab-pane fade" id="log">
-                <p>로그 Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt
-                    risus
-                    ut facilisis tristique.</p>
+                <div class="p-2 bg-light border" th:text=" '총 수익금 : ' + '1,234₩' "></div>
+                <div class="p-2 bg-light border" th:text=" '총 수익률 : ' + '1,012%' "></div>
+
+                <div class="align-right">
+                    <button type="button" class="btn btn-danger" style="margin-top: 10px;" onclick="resetLog()">초기화</button>
+                </div>
+                <br />
+                <h3>화폐별</h3>
+                <table class="table table-dark table-sm table-responsive-md align-middle" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">이름</th>
+                            <th scope="col" style="text-align: center;">수익금</th>
+                            <th scope="col" style="text-align: center;">수익률</th>
+                            <th scope="col" style="text-align: center;">매도일</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stat_coin_body">
+                        <tr th:each="list: ${statCoinsList}">
+                            <td th:text="${list[0]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[4]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[5]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[6]}" class="align-middle" style="text-align: center;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br />
+                <h3>일별</h3>
+                <table class="table table-dark table-sm table-responsive-md align-middle" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">일자</th>
+                            <th scope="col" style="text-align: center;">매도액</th>
+                            <th scope="col" style="text-align: center;">이익</th>
+                            <th scope="col" style="text-align: center;">평균수익률</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stat_day_body">
+                        <tr th:each="list: ${statDaysList}">
+                            <td th:text="${list[1]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[3]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[4]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[5]}" class="align-middle" style="text-align: center;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br />
+                <h3>월별</h3>
+                <table class="table table-dark table-sm table-responsive-md align-middle" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;">일자</th>
+                            <th scope="col" style="text-align: center;">매도액</th>
+                            <th scope="col" style="text-align: center;">이익</th>
+                            <th scope="col" style="text-align: center;">평균수익률</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stat_day_body">
+                        <tr th:each="list: ${statMonthsList}">
+                            <td th:text="${list[1]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[3]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[4]}" class="align-middle" style="text-align: center;"></td>
+                            <td th:text="${list[5]}" class="align-middle" style="text-align: center;"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -124,14 +195,14 @@
 
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">갯수로 매도!</label>
-                                <input id="input_count" type="number" class="form-control" value="0" max="999999999"
-                                    name="count">
+                                <input id="input_count" type="number" class="form-control" value="0" min="0"
+                                    max="999999999" name="count">
                             </div>
 
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">가격으로 매도!</label>
-                                <input id="input_price" type="number" class="form-control" value="0" max="9999999999"
-                                    name="price" readonly>
+                                <input id="input_price" type="number" class="form-control" value="0" min="0"
+                                    max="9999999999" name="price" readonly>
                             </div>
 
                             <label for="recipient-name" class="col-form-label">갯수 : </label>
@@ -141,9 +212,15 @@
 
                             <label for="recipient-name" class="col-form-label">가격 : </label>
                             <span id="result_price"></span>
+
+                            <br>
+                            <div id="sellWarning" style="display: inline;">
+                                <label class="col-form-label" style="color: red;">보유갯수만큼 매도할 수 있습니다!</label>
+                            </div>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="button" class="btn btn-primary" onclick="return submitCheck()">매입</button>
+                            <button id="sellButton" type="button" class="btn btn-danger row"
+                                onclick="return submitCheck()">매도</button>
                         </div>
                     </div>
 
@@ -155,9 +232,10 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="/js/bootstrap.bundle.js"></script>
-    <script src="/js/bootstrap.js"></script>
-    <script src="/nav.js"></script>
+    <script src="./js/bootstrap.bundle.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/common/customModule.js"></script>
+    <script src="./nav.js"></script>
 
     <script src="./myPage/portfolio.js"></script>
 
